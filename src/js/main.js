@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 CoNWeT Lab., Universidad Politécnica de Madrid
+ * Copyright (c) 2015-2017 CoNWeT Lab., Universidad Politécnica de Madrid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,24 +79,18 @@
         this.ngsi_connection = new NGSI.Connection(this.ngsi_server, options);
     };
 
-    /* *************************************************************************/
-    /* ***************************** HANDLERS **********************************/
-    /* *************************************************************************/
+    // =========================================================================
+    // PRIVATE MEMBERS
+    // =========================================================================
 
-    var onNGSIQuerySuccess = function onNGSIQuerySuccess(next, page, data, details) {
-        for (var i = 0; i < data.length; i++) {
-            if (!Array.isArray(data[i].attributes)) {
-                data[i].attributes = [];
-            }
-        }
-
+    var onNGSIQuerySuccess = function onNGSIQuerySuccess(next, page, data) {
         var search_info = {
-            'resources': data,
+            'resources': data.results,
             'current_page': page,
-            'total_count': details.count
+            'total_count': data.count
         };
 
-        next(data, search_info);
+        next(data.results, search_info);
     };
 
     var createNGSISource = function createNGSISource() {
@@ -106,10 +100,11 @@
                 if (this.ngsi_connection !== null) {
                     this.ngsi_connection.getAvailableSubscriptions({
                         limit: options.pageSize,
-                        offset: (page - 1) * options.pageSize,
-                        onSuccess: onNGSIQuerySuccess.bind(null, onSuccess, page),
-                        onFailure: onError
-                    });
+                        offset: (page - 1) * options.pageSize
+                    }).then(
+                        onNGSIQuerySuccess.bind(null, onSuccess, page),
+                        onError
+                    );
                 } else {
                     onSuccess([], {resources: [], total_count: 0, current_page: 0});
                 }
@@ -131,7 +126,7 @@
             {field: 'id', label: 'Id', sortable: false, width: "20%"},
             {field: 'description', label: 'Description', sortable: false},
             {field: 'status', label: 'Status', width: '10ex', sortable: false},
-            {field: 'expires', label: 'Expires', width: '24ex', sortable: false}
+            {field: 'expires', type: 'date', label: 'Expires', width: '24ex', sortable: false}
         ];
 
         if (mp.prefs.get('allow_delete')) {
