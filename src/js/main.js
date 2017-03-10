@@ -98,7 +98,8 @@
             'pageSize': 30,
             'requestFunc': function (page, options, onSuccess, onError) {
                 if (this.ngsi_connection !== null) {
-                    this.ngsi_connection.getAvailableSubscriptions({
+                    this.ngsi_connection.v2.listSubscriptions({
+                        count: true,
                         limit: options.pageSize,
                         offset: (page - 1) * options.pageSize
                     }).then(
@@ -153,7 +154,7 @@
                             title: 'Delete'
                         });
                         button.addEventListener("click", function () {
-                            this.ngsi_connection.deleteSubscription(entry.id, {
+                            this.ngsi_connection.v2.deleteSubscription(entry.id, {
                                 onSuccess: this.ngsi_source.refresh.bind(this.ngsi_source)
                             });
                         }.bind(this));
