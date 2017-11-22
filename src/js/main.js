@@ -51,6 +51,11 @@
 
         this.layout.center.addClassName('loading');
         this.layout.insertInto(document.body);
+
+        this.editor_config_output = mp.widget.createOutputEndpoint();
+        this.template_output = mp.widget.createOutputEndpoint();
+        this.update_subscription_endpoint = mp.widget.createInputEndpoint(onUpdateSubscription.bind(this));
+        this.create_subscription_endpoint = mp.widget.createInputEndpoint(onCreateSubscription.bind(this));
     };
 
     NGSITypeBrowser.prototype.updateNGSIConnection = function updateNGSIConnection() {
@@ -91,6 +96,61 @@
         };
 
         next(data.results, search_info);
+    };
+
+    var onUpdateSubscription = function onUpdateSubscription(data_string) {
+        var data = JSON.parse(data_string);
+        this.ngsi_connection.v2.updateSubscription(data, {keyValues: true}).then(() => {
+            this.ngsi_source.refresh();
+            if (this.editor_widget != null) {
+                this.editor_widget.remove();
+            }
+        });
+    };
+
+    var onCreateSubscription = function onCreateSubscription(data_string) {
+        var data = JSON.parse(data_string);
+        this.ngsi_connection.v2.createSubscription(data, {keyValues: true}).then(() => {
+            this.ngsi_source.refresh();
+            if (this.editor_widget != null) {
+                this.editor_widget.remove();
+            }
+        });
+    };
+
+    var openEditorWidget = function openEditorWidget(button, action) {
+        if (this.editor_widget == null) {
+            this.editor_widget = mp.mashup.addWidget('CoNWeT/json-editor/1.0', {refposition: button.getBoundingClientRect()});
+            this.editor_widget.addEventListener('remove', onEditorWidgetClose.bind(this));
+            // Crete a wiring connection for sending editor conf and initial contents
+            this.editor_config_output.connect(this.editor_widget.inputs.configure);
+            this.template_output.connect(this.editor_widget.inputs.input);
+        }
+
+        // Disconnect json editor output endpoint
+        this.editor_widget.outputs.output.disconnect();
+
+        // And reconnect it with the expected one
+        switch (action) {
+        case "edit":
+            this.editor_config_output.pushEvent({
+                "readonly": [
+                    ["id"]
+                ]
+            });
+            this.editor_widget.outputs.output.connect(this.update_subscription_endpoint);
+            break;
+        case "create":
+            this.editor_config_output.pushEvent({
+                "readonly": []
+            });
+            this.editor_widget.outputs.output.connect(this.create_subscription_endpoint);
+            break;
+        }
+    };
+
+    var onEditorWidgetClose = function onEditorWidgetClose() {
+        this.editor_widget = null;
     };
 
     var createNGSISource = function createNGSISource() {
@@ -144,6 +204,10 @@
                             iconClass: 'fa fa-pencil fa-fw',
                             title: 'Edit'
                         });
+                        button.addEventListener('click', function (button) {
+                            openEditorWidget.call(this, button, "edit");
+                            this.template_output.pushEvent(JSON.stringify(entry));
+                        }.bind(this));
                         content.appendChild(button);
                     }
 
