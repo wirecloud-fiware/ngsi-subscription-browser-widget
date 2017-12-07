@@ -218,9 +218,8 @@
                             title: 'Delete'
                         });
                         button.addEventListener("click", function () {
-                            this.ngsi_connection.v2.deleteSubscription(entry.id, {
-                                onSuccess: this.ngsi_source.refresh.bind(this.ngsi_source)
-                            });
+                            this.ngsi_connection.v2.deleteSubscription(entry.id)
+                                .then(this.ngsi_source.refresh.bind(this.ngsi_source));
                         }.bind(this));
                         content.appendChild(button);
                     }
