@@ -6,7 +6,7 @@
         <email>wirecloud@conwet.com</email>
         <image>images/catalogue.png</image>
         <description>Browse the available subscriptions of a given Orio context broker server</description>
-        <authors>Álvaro Arranz García &lt;aarranz@conwet.com&gt;</authors>
+        <authors>Álvaro Arranz García &lt;aarranz@conwet.com&gt;, Carlos Blanco Vallejo &lt;cblanco@ficodes.com></authors>
         <license>Apache License 2.0</license>
         <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
         <doc>doc/userguide.md</doc>
