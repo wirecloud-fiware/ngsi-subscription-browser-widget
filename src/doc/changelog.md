@@ -1,3 +1,7 @@
+## v1.0.3 (2019-05-16)
+
+New Reload Endpoint
+
 ## v1.0.2 (2017-12-07)
 
 Bugfix release
