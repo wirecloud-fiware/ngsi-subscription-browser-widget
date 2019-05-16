@@ -38,6 +38,10 @@
             this.ngsi_source.goToFirst();
         }.bind(this));
 
+        mp.wiring.registerCallback("reload", function () {
+            this.ngsi_source.goToFirst();
+        }.bind(this));
+
         this.layout = null;
         this.table = null;
     };
@@ -77,7 +81,7 @@
         }
 
         var path = mp.prefs.get('ngsi_service_path').trim().toLowerCase();
-        if (path !== '' && path !== '/') {
+        if (path !== '') {
             options.request_headers['FIWARE-ServicePath'] = path;
         }
 
