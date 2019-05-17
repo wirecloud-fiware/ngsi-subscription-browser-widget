@@ -60,6 +60,18 @@
         this.template_output = mp.widget.createOutputEndpoint();
         this.update_subscription_endpoint = mp.widget.createInputEndpoint(onUpdateSubscription.bind(this));
         this.create_subscription_endpoint = mp.widget.createInputEndpoint(onCreateSubscription.bind(this));
+
+        this.create_entity_button = new se.Button({
+            class: "se-btn-circle add-entity-button z-depth-3",
+            iconClass: "fa fa-plus",
+        });
+        this.create_entity_button.addEventListener('click', function (button) {
+            openEditorWidget.call(this, button, "create");
+            this.template_output.pushEvent(JSON.stringify(emptySubscription));
+        }.bind(this));
+
+        this.layout.center.appendChild(this.create_entity_button);
+        this.defaultEditorPos = {"y": 0,"x": 0,"width": 0,"height": 0,"top": 0,"right": 0,"bottom": 0,"left": 0};
     };
 
     NGSITypeBrowser.prototype.updateNGSIConnection = function updateNGSIConnection() {
@@ -91,6 +103,27 @@
     // =========================================================================
     // PRIVATE MEMBERS
     // =========================================================================
+
+    var emptySubscription = {
+        "description": "",
+        "subject": {
+            "entities": [
+                {
+                    "idPattern": "",
+                    "type": ""
+                }
+            ],
+            "condition": {
+                "attrs": []
+            }
+        },
+        "notification": {
+            "http": {
+                "url": "https://..."
+            },
+            "attrs": []
+        }
+    };
 
     var onNGSIQuerySuccess = function onNGSIQuerySuccess(next, page, data) {
         var search_info = {
@@ -124,7 +157,7 @@
 
     var openEditorWidget = function openEditorWidget(button, action) {
         if (this.editor_widget == null) {
-            this.editor_widget = mp.mashup.addWidget('CoNWeT/json-editor/1.0', {refposition: button.getBoundingClientRect()});
+            this.editor_widget = mp.mashup.addWidget('CoNWeT/json-editor/1.0', {refposition: this.defaultEditorPos});
             this.editor_widget.addEventListener('remove', onEditorWidgetClose.bind(this));
             // Crete a wiring connection for sending editor conf and initial contents
             this.editor_config_output.connect(this.editor_widget.inputs.configure);

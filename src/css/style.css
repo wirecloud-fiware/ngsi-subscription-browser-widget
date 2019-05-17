@@ -27,3 +27,9 @@
 .pagination {
     margin: 3px;
 }
+
+.add-entity-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
