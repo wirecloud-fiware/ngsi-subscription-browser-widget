@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="CoNWeT" name="ngsi-subscription-browser" version="1.0.2">
+<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="CoNWeT" name="ngsi-subscription-browser" version="1.0.3">
     <details>
         <title>NGSI Subscription browser</title>
         <homepage>https://github.com/wirecloud-fiware/ngsi-subscription-browser-widget</homepage>
         <email>wirecloud@conwet.com</email>
         <image>images/catalogue.png</image>
         <description>Browse the available subscriptions of a given Orio context broker server</description>
-        <authors>Álvaro Arranz García &lt;aarranz@conwet.com&gt;</authors>
+        <authors>Álvaro Arranz García &lt;aarranz@conwet.com&gt;, Carlos Blanco Vallejo &lt;cblanco@ficodes.com></authors>
         <license>Apache License 2.0</license>
         <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
         <doc>doc/userguide.md</doc>
@@ -31,6 +31,7 @@
     </preferences>
 
     <wiring>
+        <inputendpoint name="reload" label="Reload" type="text" friendcode="reload" />
     </wiring>
 
     <contents src="index.html" useplatformstyle="true"/>

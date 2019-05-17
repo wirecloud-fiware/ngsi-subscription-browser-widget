@@ -39,9 +39,12 @@ reflected immediately when using this widget.
 
 ## Wiring
 
+
 ##### Input Endpoints
 
-- This widget has no input endpoint
+-  **Reload:** This widget reloads all the information and the table when
+   something arrives at this endpoint
+
 
 ##### Output Endpoints
 
