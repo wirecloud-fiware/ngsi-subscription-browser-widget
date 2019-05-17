@@ -1,6 +1,6 @@
-## v1.0.3 (2019-05-16)
+## v1.0.3
 
-New Reload Endpoint
+- New Reload Endpoint
 
 ## v1.0.2 (2017-12-07)
 
