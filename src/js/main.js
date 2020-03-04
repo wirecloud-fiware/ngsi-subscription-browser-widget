@@ -156,7 +156,11 @@
 
     var openEditorWidget = function openEditorWidget(button, action) {
         if (this.editor_widget == null) {
-            this.editor_widget = mp.mashup.addWidget("CoNWeT/json-editor/1.0.1", {refposition: button});
+            let editor = mp.prefs.get('widget_editor');
+            if (!editor) {
+                editor = "CoNWeT/json-editor/1.0.1";
+            }
+            this.editor_widget = mp.mashup.addWidget(editor, {refposition: button});
             this.editor_widget.addEventListener('remove', onEditorWidgetClose.bind(this));
             // Crete a wiring connection for sending editor conf and initial contents
             this.editor_config_output.connect(this.editor_widget.inputs.configure);

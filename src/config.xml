@@ -28,6 +28,7 @@
         <preference name="ngsi_service_path" type="text" label="NGSI scope" description="Scope/path to use when connecting to the context broker. Must be a string of alphanumeric characters (lowercase) and the &quot;_&quot; symbol separated by &quot;/&quot; slashes. Maximum length is 50 characters. If empty, the default service path will be used: /" default="/"/>
         <preference name="allow_edit" type="boolean" label="Edit button" description="Display a edit button" default="true"/>
         <preference name="allow_delete" type="boolean" label="Delete button" description="Display a delete button" default="true"/>
+        <preference name="widget_editor" type="text" label="Widget Editor" description="Choose your subscription editor widget" default="CoNWeT/json-editor/1.0.1"/>
     </preferences>
 
     <wiring>
