@@ -1,6 +1,8 @@
 ## v1.0.3
 
 - New Reload Endpoint
+- New add subscription button
+- Change the position where the JSON editor widget opens
 
 ## v1.0.2 (2017-12-07)
 
