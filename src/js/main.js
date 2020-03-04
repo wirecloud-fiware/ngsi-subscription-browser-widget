@@ -71,7 +71,6 @@
         }.bind(this));
 
         this.layout.center.appendChild(this.create_entity_button);
-        this.defaultEditorPos = {"y": 0,"x": 0,"width": 0,"height": 0,"top": 0,"right": 0,"bottom": 0,"left": 0};
     };
 
     NGSITypeBrowser.prototype.updateNGSIConnection = function updateNGSIConnection() {
@@ -157,7 +156,7 @@
 
     var openEditorWidget = function openEditorWidget(button, action) {
         if (this.editor_widget == null) {
-            this.editor_widget = mp.mashup.addWidget('CoNWeT/json-editor/1.0', {refposition: this.defaultEditorPos});
+            this.editor_widget = mp.mashup.addWidget("CoNWeT/json-editor/1.0.1", {refposition: button});
             this.editor_widget.addEventListener('remove', onEditorWidgetClose.bind(this));
             // Crete a wiring connection for sending editor conf and initial contents
             this.editor_config_output.connect(this.editor_widget.inputs.configure);
